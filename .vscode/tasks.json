@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start MongoDB",
+      "type": "shell",
+      "command": "\"C:\\Program Files\\MongoDB\\Server\\8.2\\bin\\mongod.exe\" --port 27018 --dbpath \"C:\\data\\db27018\"",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
