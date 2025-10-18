@@ -4,49 +4,88 @@ import "../styles/main.css";
 
 export default function HomePage() {
   return (
-    <div className="home-container">
+    <div className="store-home">
+
       {/* Hero Section */}
-      <section className="hero">
-        <div className="hero-content">
-          <h1>Welcome to the Online Convenience Store 🛍️</h1>
-          <p>Your one-stop shop for everyday essentials — fast, simple, and secure.</p>
-          <Link to="/products" className="shop-button">
-            Start Shopping
-          </Link>
+      <section className="hero-premium">
+        <div className="hero-content-premium">
+          <h1>Your Everyday Essentials, Delivered Fast</h1>
+          <p>Shop smarter with unbeatable prices and same-day delivery.</p>
+          <Link to="/shop" className="hero-button">Start Shopping</Link>
         </div>
       </section>
 
-      {/* Featured Categories */}
-      <section className="categories">
-        <h2>Shop by Category</h2>
-        <div className="category-grid">
-          <div className="category-card">
-            <img src="https://images.unsplash.com/photo-1585238342020-96629f60cdd0" alt="Snacks" />
-            <h3>Snacks</h3>
+      {/* Category Highlights */}
+      <section className="category-highlight">
+        <h2>Explore Categories</h2>
+        <div className="category-grid-premium">
+          <div className="category-card-premium"><span>Groceries</span></div>
+          <div className="category-card-premium"><span>Drinks</span></div>
+          <div className="category-card-premium"><span>Snacks</span></div>
+          <div className="category-card-premium"><span>Personal Care</span></div>
+        </div>
+      </section>
+
+      {/* Featured Products */}
+      <section className="featured-premium">
+        <h2>Featured Products</h2>
+        <div className="product-grid-premium">
+          <div className="product-card-premium">
+            <div className="product-img-placeholder"></div>
+            <h3>Product Name</h3>
+            <p>$???</p>
+            <button>Add to Cart</button>
           </div>
-          <div className="category-card">
-            <img src="https://images.unsplash.com/photo-1571687949920-e9b53af1cfb3" alt="Drinks" />
-            <h3>Drinks</h3>
+          <div className="product-card-premium">
+            <div className="product-img-placeholder"></div>
+            <h3>Product Name</h3>
+            <p>$???</p>
+            <button>Add to Cart</button>
           </div>
-          <div className="category-card">
-            <img src="https://images.unsplash.com/photo-1615486366433-8b7b2adf06d1" alt="Household" />
-            <h3>Household</h3>
+          <div className="product-card-premium">
+            <div className="product-img-placeholder"></div>
+            <h3>Product Name</h3>
+            <p>$???</p>
+            <button>Add to Cart</button>
           </div>
-          <div className="category-card">
-            <img src="https://images.unsplash.com/photo-1613482184972-bcd3b3ac8c2b" alt="Personal Care" />
-            <h3>Personal Care</h3>
+          <div className="product-card-premium">
+            <div className="product-img-placeholder"></div>
+            <h3>Product Name</h3>
+            <p>$???</p>
+            <button>Add to Cart</button>
           </div>
+        </div>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="trust-premium">
+        <div className="trust-item">
+          <h3>🚚 Fast Delivery</h3>
+          <p>Get your order delivered the same day in most areas.</p>
+        </div>
+        <div className="trust-item">
+          <h3>🔒 Secure Checkout</h3>
+          <p>Your payments are safe with encrypted transactions.</p>
+        </div>
+        <div className="trust-item">
+          <h3>⭐ Premium Quality</h3>
+          <p>We stock only trusted, high-quality everyday products.</p>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="about">
+      <section className="about-premium">
         <h2>Why Shop With Us?</h2>
         <p>
-          We’re dedicated to bringing you quality essentials at affordable prices. Whether it’s a quick snack,
-          household item, or your favourite drink, our goal is to make your shopping simple and enjoyable.
+          We’re more than a convenience store — we’re your local shop online.
+          From groceries and snacks to personal care, we bring quality and value to your doorstep.
         </p>
       </section>
+
+      {/* Footer */}
+      <footer className="footer-premium">
+        <p>© 2025 Online Convenience Store | Everyday Value • Fast Delivery • Secure Payments</p>
+      </footer>
     </div>
   );
 }
