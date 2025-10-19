@@ -11,10 +11,14 @@ public class Product {
     private String category;
     private double price;
     private int stock;
+    private Boolean productType;
+    private Boolean isFeatured;
 
-    public Product() {}
+    public Product() {
+    }
 
-    public Product(String name, String category, double price, int stock) {
+    public Product(String id, String name, String category, double price, int stock) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.price = price;
@@ -22,13 +26,47 @@ public class Product {
     }
 
     // Getters and setters
-    public String getId() { return id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
-    public int getStock() { return stock; }
-    public void setStock(int stock) { this.stock = stock; }
+
+    // Dynamic: return Cloudinary image URL based on product ID
+    public String getImageUrl() {
+        if (id == null || id.isEmpty())
+            return null;
+        return "https://res.cloudinary.com/dtglrc8my/image/upload/" + id + ".jpg";
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 }

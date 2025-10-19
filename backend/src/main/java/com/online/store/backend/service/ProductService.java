@@ -6,18 +6,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.online.store.backend.model.Product;
-import com.online.store.backend.repository.ProductRepository;
+import com.online.store.backend.repository.IProductRepository;
 
 @Service
 public class ProductService {
     @Autowired
-    private ProductRepository repo;
+    private IProductRepository repo;
 
-    public List<Product> getAllProducts() { return repo.findAll(); }
+    public List<Product> getAllProducts() {
+        return repo.findAll();
+    }
 
-    public Product addProduct(Product p) { return repo.save(p); }
+    public Product addProduct(Product p) {
+        return repo.save(p);
+    }
 
-    public void deleteProduct(String id) { repo.deleteById(id); }
+    public void deleteProduct(String id) {
+        repo.deleteById(id);
+    }
 
-    public Product updateProduct(Product p) { return repo.save(p); }
+    public Product updateProduct(Product p) {
+        return repo.save(p);
+    }
 }

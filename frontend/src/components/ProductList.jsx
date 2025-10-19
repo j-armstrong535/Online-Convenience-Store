@@ -19,6 +19,12 @@ export default function ProductList() {
       <div className="grid">
         {products.map((p) => (
           <div className="card" key={p.id}>
+            <img
+              src={`https://res.cloudinary.com/dtglrc8my/image/upload/${p.id}.jpg`}
+              alt={p.name}
+              style={{ width: "100%", height: "120px", objectFit: "cover", marginBottom: "0.5rem" }}
+              onError={e => { e.target.src = '/placeholder.png'; }}
+            />
             <h3>{p.name}</h3>
             <p>{p.category}</p>
             <p>${p.price.toFixed(2)}</p>

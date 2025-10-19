@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import api from "../services/api";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 
+// HomePage component for the online convenience store
 export default function HomePage() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    api.get("/products").then(res => setProducts(res.data));
+  }, []);
+
   return (
     <div className="store-home">
 
@@ -30,30 +38,19 @@ export default function HomePage() {
       <section className="featured-premium">
         <h2>Featured Products</h2>
         <div className="product-grid-premium">
-          <div className="product-card-premium">
-            <div className="product-img-placeholder"></div>
-            <h3>Product Name</h3>
-            <p>$???</p>
-            <button>Add to Cart</button>
-          </div>
-          <div className="product-card-premium">
-            <div className="product-img-placeholder"></div>
-            <h3>Product Name</h3>
-            <p>$???</p>
-            <button>Add to Cart</button>
-          </div>
-          <div className="product-card-premium">
-            <div className="product-img-placeholder"></div>
-            <h3>Product Name</h3>
-            <p>$???</p>
-            <button>Add to Cart</button>
-          </div>
-          <div className="product-card-premium">
-            <div className="product-img-placeholder"></div>
-            <h3>Product Name</h3>
-            <p>$???</p>
-            <button>Add to Cart</button>
-          </div>
+          {products.slice(0, 4).map((p) => (
+            <div className="product-card-premium" key={p.id}>
+              <img
+                src={`https://res.cloudinary.com/dtglrc8my/image/upload/${p.id}.jpg`}
+                alt={p.name}
+                style={{ width: "100%", height: "120px", objectFit: "cover", marginBottom: "0.5rem" }}
+                onError={e => { e.target.src = '/placeholder.png'; }}
+              />
+              <h3>{p.name}</h3>
+              <p>${p.price.toFixed(2)}</p>
+              <button>Add to Cart</button>
+            </div>
+          ))}
         </div>
       </section>
 
