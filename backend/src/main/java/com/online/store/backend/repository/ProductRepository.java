@@ -4,5 +4,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.online.store.backend.model.Product;
 
-public interface IProductRepository extends MongoRepository<Product, String> {
+public interface ProductRepository extends MongoRepository<Product, String> {
 }

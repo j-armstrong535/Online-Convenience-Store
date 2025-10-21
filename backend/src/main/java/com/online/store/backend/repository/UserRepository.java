@@ -1,5 +1,5 @@
 package com.online.store.backend.repository;
 
-public class ICartRepository {
+public class UserRepository {
 
 }
