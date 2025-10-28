@@ -4,27 +4,31 @@ import "../styles/cart.css";
 export default function CartPage() {
   const [cart, setCart] = useState([]);
 
+  // Load cart from localStorage on mount
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCart(storedCart);
   }, []);
 
+  // Remove item from cart
   const removeFromCart = (id) => {
     const updatedCart = cart.filter((item) => item.id !== id);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
-  const updateQuantity = (id, amount) => {
+  // Update quantity (cannot go below 1)
+  const updateQuantity = (id, change) => {
     const updatedCart = cart.map((item) =>
       item.id === id
-        ? { ...item, quantity: Math.max(1, item.quantity + amount) }
+        ? { ...item, quantity: Math.max(1, item.quantity + change) }
         : item
     );
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
 
+  // Calculate total price
   const totalPrice = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -35,7 +39,7 @@ export default function CartPage() {
       <h1>Your Shopping Cart</h1>
 
       {cart.length === 0 ? (
-        <p className="empty">Your cart is empty, start shopping!</p>
+        <p className="empty">Your cart is empty — start shopping!</p>
       ) : (
         <div className="cart-items">
           {cart.map((item) => (
@@ -53,7 +57,10 @@ export default function CartPage() {
                   <span>{item.quantity}</span>
                   <button onClick={() => updateQuantity(item.id, 1)}>+</button>
                 </div>
-                <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
+                <button
+                  className="remove-btn"
+                  onClick={() => removeFromCart(item.id)}
+                >
                   Remove
                 </button>
               </div>

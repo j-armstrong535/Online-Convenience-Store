@@ -3,7 +3,6 @@ import api from "../services/api";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 
-// HomePage component for the online convenience store
 export default function HomePage() {
   const [products, setProducts] = useState([]);
 
@@ -11,9 +10,42 @@ export default function HomePage() {
     api.get("/products").then(res => setProducts(res.data));
   }, []);
 
+  // ✅ Add to Cart function — works with localStorage + backend
+  const handleAddToCart = async (product) => {
+    try {
+      // Optional: still post to backend if needed
+      await api.post("/cart/add", product).catch(() => {});
+
+      // Get current cart from localStorage
+      const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      // Check if product already exists
+      const existingItem = storedCart.find((item) => item.id === product.id);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        storedCart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          imageUrl: `https://res.cloudinary.com/dtglrc8my/image/upload/${product.id}.jpg`,
+          quantity: 1,
+        });
+      }
+
+      // Save updated cart to localStorage
+      localStorage.setItem("cart", JSON.stringify(storedCart));
+
+      alert(`${product.name} added to cart!`);
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add to cart. Please try again.");
+    }
+  };
+
   return (
     <div className="store-home">
-
       {/* Hero Section */}
       <section className="hero-premium">
         <div className="hero-content-premium">
@@ -48,7 +80,7 @@ export default function HomePage() {
               />
               <h3>{p.name}</h3>
               <p>${p.price.toFixed(2)}</p>
-              <button>Add to Cart</button>
+              <button onClick={() => handleAddToCart(p)}>Add to Cart</button>
             </div>
           ))}
         </div>
