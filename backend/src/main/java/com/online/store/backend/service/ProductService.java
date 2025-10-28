@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.online.store.backend.model.Product;
-import com.online.store.backend.repository.IProductRepository;
+import com.online.store.backend.repository.ProductRepository;
 
 @Service
 public class ProductService {
     @Autowired
-    private IProductRepository repo;
+    private ProductRepository repo;
 
     public List<Product> getAllProducts() {
         return repo.findAll();
