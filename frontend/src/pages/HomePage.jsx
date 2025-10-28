@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import api from "../services/api";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
@@ -10,16 +11,12 @@ export default function HomePage() {
     api.get("/products").then(res => setProducts(res.data));
   }, []);
 
-  // ✅ Add to Cart function — works with localStorage + backend
   const handleAddToCart = async (product) => {
     try {
-      // Optional: still post to backend if needed
       await api.post("/cart/add", product).catch(() => {});
 
-      // Get current cart from localStorage
       const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-      // Check if product already exists
       const existingItem = storedCart.find((item) => item.id === product.id);
 
       if (existingItem) {
@@ -34,10 +31,9 @@ export default function HomePage() {
         });
       }
 
-      // Save updated cart to localStorage
       localStorage.setItem("cart", JSON.stringify(storedCart));
 
-      alert(`${product.name} added to cart!`);
+      toast.success(`🛍️ ${product.name} added to cart!`);
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Failed to add to cart. Please try again.");
