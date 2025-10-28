@@ -47,7 +47,7 @@ export default function HomePage() {
         <div className="hero-content-premium">
           <h1>Your Everyday Essentials, Delivered Fast</h1>
           <p>Shop smarter with unbeatable prices and same-day delivery.</p>
-          <Link to="/shop" className="hero-button">Start Shopping</Link>
+          <Link to="/products" className="hero-button">Start Shopping</Link>
         </div>
       </section>
 
