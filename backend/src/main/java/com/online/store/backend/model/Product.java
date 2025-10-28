@@ -31,7 +31,7 @@ public class Product {
     public String getImageUrl() {
         if (id == null || id.isEmpty())
             return null;
-        return "https://res.cloudinary.com/dtglrc8my/image/upload/" + id + ".jpg";
+        return "https://res.cloudinary.com/dtglrc8my/image/upload/v1760861224/" + id + ".jpg";
     }
 
     public String getId() {

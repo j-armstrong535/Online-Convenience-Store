@@ -41,7 +41,7 @@ export default function HomePage() {
           {products.slice(0, 4).map((p) => (
             <div className="product-card-premium" key={p.id}>
               <img
-                src={`https://res.cloudinary.com/dtglrc8my/image/upload/${p.id}.jpg`}
+                src={`https://res.cloudinary.com/dtglrc8my/image/upload/v1760861224/${p.id}.jpg`}
                 alt={p.name}
                 style={{ width: "100%", height: "120px", objectFit: "cover", marginBottom: "0.5rem" }}
                 onError={e => { e.target.src = '/placeholder.png'; }}
