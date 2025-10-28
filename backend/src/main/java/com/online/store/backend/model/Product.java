@@ -15,7 +15,8 @@ public class Product {
     private Boolean productType;
     private Boolean isFeatured;
 
-    public Product() {}
+    public Product() {
+    }
 
     public Product(String id, String name, String category, Double price, Integer stock) {
         this.id = id;
@@ -27,38 +28,68 @@ public class Product {
 
     // Dynamic: return Cloudinary image URL based on product ID
     public String getImageUrl() {
-<<<<<<< HEAD
         if (id == null || id.isEmpty())
             return null;
         return "https://res.cloudinary.com/dtglrc8my/image/upload/v1760861224/" + id + ".jpg";
-=======
-        if (id == null || id.isEmpty()) return null;
-        return "https://res.cloudinary.com/dtglrc8my/image/upload/" + id + ".jpg";
->>>>>>> 0a02c42f20865886587e1c3617328170df1a147f
     }
 
     // --- Getters/Setters (excluding stock) ---
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    public String getName() {
+        return name;
+    }
 
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public Boolean getProductType() { return productType; }
-    public void setProductType(Boolean productType) { this.productType = productType; }
+    public String getCategory() {
+        return category;
+    }
 
-    public Boolean getIsFeatured() { return isFeatured; }
-    public void setIsFeatured(Boolean isFeatured) { this.isFeatured = isFeatured; }
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Boolean getProductType() {
+        return productType;
+    }
+
+    public void setProductType(Boolean productType) {
+        this.productType = productType;
+    }
+
+    public Boolean getIsFeatured() {
+        return isFeatured;
+    }
+
+    public void setIsFeatured(Boolean isFeatured) {
+        this.isFeatured = isFeatured;
+    }
 
     // Stock is now managed only by Inventory
-    Integer getStock() { return stock; }       // protected visibility
-    void setStock(Integer stock) { this.stock = stock; }
+    Integer getStock() {
+        return stock;
+    } // protected visibility
+
+    void setStock(Integer stock) {
+        this.stock = stock;
+    }
 
     @Override
     public String toString() {
