@@ -20,21 +20,17 @@ export default function PaymentPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Simple validation
     if (!form.name || !form.cardNumber || !form.expiry || !form.cvv) {
       toast.error("⚠️ Please fill out all fields before paying.");
       return;
     }
 
-    // Simulate payment success
     toast.success("💳 Payment Successful! Thank you for your purchase.", {
       autoClose: 2500,
     });
 
-    // ✅ Clear cart after payment
     localStorage.removeItem("cart");
 
-    // Reset form
     setForm({ name: "", cardNumber: "", expiry: "", cvv: "" });
 
     // Redirect back to homepage after 2.5s
