@@ -32,6 +32,7 @@ export default function HomePage() {
       }
 
       localStorage.setItem("cart", JSON.stringify(storedCart));
+      window.dispatchEvent(new Event("storage"));
 
       toast.success(`🛍️ ${product.name} added to cart!`);
     } catch (error) {

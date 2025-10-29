@@ -15,6 +15,7 @@ export default function CartPage() {
     const updatedCart = cart.filter((item) => item.id !== id);
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event("storage"));
   };
 
   // Update quantity (cannot go below 1)
@@ -26,6 +27,7 @@ export default function CartPage() {
     );
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    window.dispatchEvent(new Event("storage"));
   };
 
   // Calculate total price

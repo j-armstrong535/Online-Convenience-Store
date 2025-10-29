@@ -36,6 +36,7 @@ export default function ProductsPage() {
     }
 
     localStorage.setItem("cart", JSON.stringify(storedCart));
+    window.dispatchEvent(new Event("storage"));
 
     toast.success(`🛒 ${product.name} added to cart!`, {
       position: "top-right",

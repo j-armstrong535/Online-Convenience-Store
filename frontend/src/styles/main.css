@@ -337,3 +337,72 @@ button:hover {
 .error {
   color: #D80027;
 }
+
+/* ======= NAVBAR CART ONLY ======= */
+.navbar-cart {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.navbar-cart-link {
+  position: relative;
+  color: #FFD100;
+  text-decoration: none;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.navbar-cart-link:hover {
+  color: #FFFFFF;
+}
+
+.navbar-cart-icon {
+  font-size: 1.4rem;
+  color: #FFD100;
+}
+
+/* --- Red Badge --- */
+.navbar-cart-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background-color: #D80027;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.35rem;
+  line-height: 1;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+  transform: none;
+}
+
+/* --- Ensure navbar spacing is consistent --- */
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navbar ul li {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+}
