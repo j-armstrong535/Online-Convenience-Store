@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import ProductsPage from "./pages/ProductsPage";
+import PaymentPage from "./pages/PaymentPage";
 import "./styles/main.css";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
         </Routes>
       </main>
 

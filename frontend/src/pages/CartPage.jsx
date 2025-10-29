@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/cart.css";
 
 export default function CartPage() {
@@ -35,6 +36,8 @@ export default function CartPage() {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  // Navigation to payment page
+  const navigate = useNavigate();
 
   return (
     <div className="cart-container">
@@ -74,7 +77,7 @@ export default function CartPage() {
       {cart.length > 0 && (
         <div className="cart-summary">
           <h2>Total: ${totalPrice.toFixed(2)}</h2>
-          <button className="checkout-btn">Proceed to Checkout</button>
+          <button className="checkout-btn" onClick={() => navigate("/payment")}>Proceed to Checkout</button>
         </div>
       )}
     </div>

@@ -406,3 +406,72 @@ button:hover {
   display: flex;
   align-items: center;
 }
+
+/* ======= Payment Page ======= */
+.payment-page {
+  max-width: 420px;
+  margin: 5rem auto;
+  background: #fefefe;
+  color: #111;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.payment-page h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color:  #111;
+}
+
+.payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.payment-form label {
+  font-weight: 500;
+  text-align: left;
+  color: #111;
+  font-size: 0.95rem;
+}
+
+.payment-form input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.3rem;
+  border: 1px solid #111;
+  border-radius: 6px;
+  background: #f0eeee;
+  color: #111;
+  font-size: 0.9rem;
+}
+
+.payment-form input:focus {
+  outline: none;
+  border-color: #111;
+  box-shadow: 0 0 4px #111;
+}
+
+.payment-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.pay-btn {
+  background: #D80027;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pay-btn:hover {
+  background: #b1001f;
+}
