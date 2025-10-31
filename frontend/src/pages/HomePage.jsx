@@ -58,15 +58,15 @@ export default function HomePage() {
       <section className="trust-premium">
         <div className="trust-item">
           <h3>🚚 Fast Delivery</h3>
-          <p>Get your order delivered the same day in most areas.</p>
+          <p>Get your order delivered the same day in most areas. Delivered by our trusted couriers.</p>
         </div>
         <div className="trust-item">
           <h3>🔒 Secure Checkout</h3>
-          <p>Your payments are safe with encrypted transactions.</p>
+          <p>Your payments are safe with encrypted transactions. Shop with confidence.</p>
         </div>
         <div className="trust-item">
           <h3>⭐ Premium Quality</h3>
-          <p>We stock only trusted, high-quality everyday products.</p>
+          <p>We stock only trusted, high-quality everyday products. Satisfaction guaranteed, or your money back.</p>
         </div>
       </section>
 
@@ -76,6 +76,8 @@ export default function HomePage() {
         <p>
           We’re more than a convenience store — we’re your local shop online.
           From groceries and snacks to personal care, we bring quality and value to your doorstep.
+          Enjoy everyday low prices, fast delivery if you need it, and a seamless shopping experience.
+          If you're coming in store, our friendly staff are here to help you find what you need quickly.
         </p>
       </section>
 

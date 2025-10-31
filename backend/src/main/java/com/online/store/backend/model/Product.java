@@ -11,6 +11,8 @@ public class Product {
     private String name;
     private String category;
     private Double price;
+    // REMOVE LATER: stock management moved to Inventory
+    // Stock should only be a field retrieved from the DB by Inventory service
     private Integer stock; // now private to Product, not directly accessible externally
     private Boolean productType;
     private Boolean isFeatured;
@@ -82,11 +84,13 @@ public class Product {
         this.isFeatured = isFeatured;
     }
 
+    // REMOVE LATER:
     // Stock is now managed only by Inventory
     Integer getStock() {
         return stock;
     } // protected visibility
 
+    // DEFINITELY REMOVE LATER: VIOLATES SRP
     void setStock(Integer stock) {
         this.stock = stock;
     }

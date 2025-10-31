@@ -30,6 +30,8 @@ public class Inventory {
         return false;
     }
 
+    // REMOVE LATER: for testing purposes only
+    // Stock should only be retrieved from DB by Inventory service
     public Integer getStockLevel(String productId) {
         Product p = productStock.get(productId);
         return (p != null) ? p.getStock() : null;
