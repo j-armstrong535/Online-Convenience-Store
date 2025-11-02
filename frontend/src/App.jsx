@@ -8,18 +8,26 @@ import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import ProductsPage from "./pages/ProductsPage";
 import PaymentPage from "./pages/PaymentPage";
+import CategoriesPage from "./pages/CategoriesPage";
+import ProfilePage from "./pages/ProfilePage";
+import TransactionHistoryPage from "./pages/TransactionHistoryPage";
+import AnalyticsPage from "./pages/AnalyticsPage";
 import "./styles/main.css";
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <main style={{ paddingTop: "2rem" }}>
+      <main style={{ paddingTop: "4.5rem" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/transactions" element={<TransactionHistoryPage />} />
+          <Route path="/analytics" element={<AnalyticsPage />} />
         </Routes>
       </main>
 
