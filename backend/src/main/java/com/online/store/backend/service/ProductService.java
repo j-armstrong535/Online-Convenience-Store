@@ -13,18 +13,22 @@ public class ProductService {
     @Autowired
     private ProductRepository repo;
 
+    // Accessible by all users
     public List<Product> getAllProducts() {
         return repo.findAll();
     }
 
+    // Only accessed by Admin
     public Product addProduct(Product p) {
         return repo.save(p);
     }
 
+    // Only accessed by Admin
     public void deleteProduct(String id) {
         repo.deleteById(id);
     }
 
+    // Only accessed by Admin
     public Product updateProduct(Product p) {
         return repo.save(p);
     }

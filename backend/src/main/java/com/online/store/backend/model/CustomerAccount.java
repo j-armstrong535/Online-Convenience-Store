@@ -44,6 +44,8 @@ public class CustomerAccount extends Account {
      */
     public void viewOrderHistory() {
         // Implementation for viewing order history
+        // May need to change from void to another return type if
+        // necessary to return order history data to the user
     }
 
     /**

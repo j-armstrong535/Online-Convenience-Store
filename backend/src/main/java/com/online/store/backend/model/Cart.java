@@ -14,20 +14,36 @@ public class Cart {
     private String userId; // optional if you implement login
     private List<CartItem> items = new ArrayList<>();
 
-    public Cart() {}
+    public Cart() {
+    }
 
     public Cart(String userId) {
         this.userId = userId;
     }
 
-    public String getId() { return id; }
-    public void setId(String id) { this.id = id; }
+    public String getId() {
+        return id;
+    }
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId) { this.userId = userId; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public List<CartItem> getItems() { return items; }
-    public void setItems(List<CartItem> items) { this.items = items; }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public List<CartItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CartItem> items) {
+        this.items = items;
+    }
 
     public void addProduct(Product product) {
         for (CartItem item : items) {
