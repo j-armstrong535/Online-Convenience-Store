@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../services/api";
+import { addProductToCart } from "../services/cart";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 
@@ -13,27 +14,7 @@ export default function HomePage() {
 
   const handleAddToCart = async (product) => {
     try {
-      await api.post("/cart/add", product).catch(() => {});
-
-      const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-      const existingItem = storedCart.find((item) => item.id === product.id);
-
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        storedCart.push({
-          id: product.id,
-          name: product.name,
-          price: product.price,
-          imageUrl: `https://res.cloudinary.com/dtglrc8my/image/upload/${product.id}.jpg`,
-          quantity: 1,
-        });
-      }
-
-      localStorage.setItem("cart", JSON.stringify(storedCart));
-      window.dispatchEvent(new Event("storage"));
-
+      await addProductToCart(product);
       toast.success(`🛍️ ${product.name} added to cart!`);
     } catch (error) {
       console.error("Error adding to cart:", error);

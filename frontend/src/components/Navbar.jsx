@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FaBars, FaShoppingCart, FaTimes } from "react-icons/fa";
+import { fetchCartItems, readCachedCart } from "../services/cart";
 import "../styles/main.css";
 
 const ACCOUNT_TYPE_KEY = "accountType";
@@ -15,7 +16,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const updateCartInfo = () => {
-      const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const storedCart = readCachedCart();
       const totalItems = storedCart.reduce(
         (sum, item) => sum + (item?.quantity || 0),
         0
@@ -24,6 +25,9 @@ export default function Navbar() {
     };
 
     updateCartInfo();
+    fetchCartItems().catch(() => {
+      /* swallow errors for nav badge */
+    });
     window.addEventListener("storage", updateCartInfo);
     return () => window.removeEventListener("storage", updateCartInfo);
   }, []);
