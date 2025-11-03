@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Represents the record of a payment captured during checkout.
- * Mirrors the responsibilities outlined in the Payment candidate class.
  */
 @Document("payments")
 public class Payment {

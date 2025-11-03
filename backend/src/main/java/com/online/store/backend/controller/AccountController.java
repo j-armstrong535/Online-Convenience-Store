@@ -1,6 +1,5 @@
 package com.online.store.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +20,11 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+    private final AccountService accountService;
+
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     /**
      * Creates a new account using the factory pattern
@@ -41,6 +43,7 @@ public class AccountController {
                     .department(request.getDepartment())
                     .accessLevel(request.getAccessLevel())
                     .build();
+            account = accountService.saveAccount(account);
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
@@ -48,6 +51,7 @@ public class AccountController {
             response.put("accountType", account.getClass().getSimpleName());
             response.put("username", account.getUsername());
             response.put("email", account.getEmail());
+            response.put("id", account.getId());
 
             return ResponseEntity.ok(response);
 

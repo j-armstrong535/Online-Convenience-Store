@@ -7,8 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * Singleton inventory aggregate, maintaining product stock grouped by categories.
- * Implements the design document's Singleton and Observer patterns.
+ * Singleton inventory aggregate, maintaining product stock grouped by
+ * categories.
+ * Implements the Singleton and Observer patterns.
  */
 public class Inventory {
 

@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.online.store.backend.model.Account;
 import com.online.store.backend.model.Cart;
 import com.online.store.backend.model.Checkout;
-import com.online.store.backend.model.CustomerAccount;
 import com.online.store.backend.model.FulfilmentMethod;
 import com.online.store.backend.model.Payment;
 import com.online.store.backend.model.PaymentMethod;
@@ -20,18 +19,21 @@ public class CheckoutService {
     private final ReceiptService receiptService;
     private final SalesRecordService salesRecordService;
     private final InventoryService inventoryService;
+    private final AccountService accountService;
 
     public CheckoutService(
             CartService cartService,
             PaymentService paymentService,
             ReceiptService receiptService,
             SalesRecordService salesRecordService,
-            InventoryService inventoryService) {
+            InventoryService inventoryService,
+            AccountService accountService) {
         this.cartService = cartService;
         this.paymentService = paymentService;
         this.receiptService = receiptService;
         this.salesRecordService = salesRecordService;
         this.inventoryService = inventoryService;
+        this.accountService = accountService;
     }
 
     /**
@@ -48,10 +50,6 @@ public class CheckoutService {
             throw new IllegalStateException("Cannot complete checkout on an empty cart");
         }
 
-        if (customerAccount instanceof CustomerAccount customer) {
-            customer.initiateCheckout();
-        }
-
         Checkout checkout = new Checkout(cart);
         Payment payment = paymentService.processPayment(paymentMethod, checkout.calculateTotal());
         checkout.registerPayment(payment);
@@ -59,9 +57,7 @@ public class CheckoutService {
         Receipt receipt = receiptService.issueReceipt(customerAccount, cart, payment);
         salesRecordService.recordSale(receipt);
 
-        if (customerAccount instanceof CustomerAccount customer) {
-            customer.recordPurchase(receipt);
-        }
+        accountService.handleSuccessfulCheckout(customerAccount, receipt);
 
         inventoryService.applyOrder(cart);
         checkout.clearCart();

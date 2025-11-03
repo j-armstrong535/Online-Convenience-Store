@@ -2,11 +2,16 @@ package com.online.store.backend.controller;
 
 import java.time.LocalDateTime;
 
+import java.util.Optional;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.online.store.backend.model.Account;
 import com.online.store.backend.model.AccountType;
@@ -54,7 +59,25 @@ public class CheckoutController {
     }
 
     private Account buildAccount(CheckoutRequest request) {
-        if (request.getUsername() == null && request.getCustomerAccountId() == null) {
+        if (request == null) {
+            return null;
+        }
+
+        if (StringUtils.hasText(request.getCustomerAccountId())) {
+            return accountService.findById(request.getCustomerAccountId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found"));
+        }
+
+        if (StringUtils.hasText(request.getEmail())) {
+            Optional<Account> existing = accountService.findByEmail(request.getEmail());
+            if (existing.isPresent()) {
+                Account account = existing.get();
+                applyCustomerDetails(account, request);
+                return accountService.saveAccount(account);
+            }
+        }
+
+        if (!StringUtils.hasText(request.getUsername()) || !StringUtils.hasText(request.getEmail())) {
             return null; // guest checkout
         }
 
@@ -62,25 +85,54 @@ public class CheckoutController {
                 ? request.getAccountType()
                 : AccountType.CUSTOMER;
 
-        Account account = accountService.createAccountFromString(accountType.getType(),
-                request.getUsername() != null ? request.getUsername() : "guest",
-                request.getEmail() != null ? request.getEmail() : "guest@example.com");
-
-        if (request.getCustomerAccountId() != null) {
-            account.setId(request.getCustomerAccountId());
-        } else if (account.getId() == null && request.getUsername() != null) {
-            account.setId(request.getUsername());
+        Account account;
+        switch (accountType) {
+            case STORE_MANAGER:
+                account = accountService.createStoreManagerAccount(
+                        request.getUsername(),
+                        request.getEmail(),
+                        "",
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getDepartment());
+                break;
+            case STORE_ADMIN:
+                account = accountService.createStoreAdminAccount(
+                        request.getUsername(),
+                        request.getEmail(),
+                        "",
+                        request.getFirstName(),
+                        request.getLastName());
+                break;
+            case CUSTOMER:
+            default:
+                account = accountService.createCustomerAccount(
+                        request.getUsername(),
+                        request.getEmail(),
+                        "",
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getShippingAddress());
+                applyCustomerDetails(account, request);
+                account = accountService.saveAccount(account);
+                break;
         }
-
-        if (account instanceof CustomerAccount customerAccount) {
-            customerAccount.setShippingAddress(request.getShippingAddress());
-            customerAccount.setPaymentMethod(request.getPaymentMethod().name());
-        } else if (account instanceof StoreAccount storeAccount) {
-            storeAccount.setDepartment("checkout");
-            storeAccount.setAccessLevel("operator");
-        }
-
         return account;
+    }
+
+    private void applyCustomerDetails(Account account, CheckoutRequest request) {
+        if (account instanceof CustomerAccount customer) {
+            if (StringUtils.hasText(request.getShippingAddress())) {
+                customer.setShippingAddress(request.getShippingAddress());
+            }
+            if (request.getPaymentMethod() != null) {
+                customer.setPaymentMethod(request.getPaymentMethod().name());
+            }
+        } else if (account instanceof StoreAccount storeAccount) {
+            if (StringUtils.hasText(request.getDepartment())) {
+                storeAccount.setDepartment(request.getDepartment());
+            }
+        }
     }
 
     public static class CheckoutRequest {
@@ -91,6 +143,9 @@ public class CheckoutController {
         private FulfilmentMethod fulfilmentMethod;
         private AccountType accountType;
         private String shippingAddress;
+        private String firstName;
+        private String lastName;
+        private String department;
 
         public String getCustomerAccountId() {
             return customerAccountId;
@@ -146,6 +201,30 @@ public class CheckoutController {
 
         public void setShippingAddress(String shippingAddress) {
             this.shippingAddress = shippingAddress;
+        }
+
+        public String getFirstName() {
+            return firstName;
+        }
+
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
+        }
+
+        public String getLastName() {
+            return lastName;
+        }
+
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
+        }
+
+        public String getDepartment() {
+            return department;
+        }
+
+        public void setDepartment(String department) {
+            this.department = department;
         }
     }
 
