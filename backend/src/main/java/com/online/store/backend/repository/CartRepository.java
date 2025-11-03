@@ -1,11 +1,13 @@
-
 package com.online.store.backend.repository;
 
-import com.online.store.backend.model.Cart;
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import com.online.store.backend.model.Cart;
+
 @Repository
 public interface CartRepository extends MongoRepository<Cart, String> {
-    Cart findByUserId(String userId);
+    Optional<Cart> findByUserId(String userId);
 }

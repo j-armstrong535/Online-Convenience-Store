@@ -1,44 +1,70 @@
 package com.online.store.backend.service;
 
+import org.springframework.stereotype.Service;
+
 import com.online.store.backend.model.Cart;
+import com.online.store.backend.model.FulfilmentMethod;
 import com.online.store.backend.model.Product;
 import com.online.store.backend.repository.CartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CartService {
 
-    @Autowired
-    private CartRepository cartRepository;
+    private static final String DEFAULT_USER_ID = "guest";
 
-    // Temporary: single "guest" user
-    private final String USER_ID = "guest";
+    private final CartRepository cartRepository;
+
+    public CartService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
+    }
 
     public Cart getCart() {
-        Cart cart = cartRepository.findByUserId(USER_ID);
-        if (cart == null) {
-            cart = new Cart(USER_ID);
-            cartRepository.save(cart);
-        }
-        return cart;
+        return getCartForUser(DEFAULT_USER_ID);
+    }
+
+    public Cart getCartForUser(String userId) {
+        String resolvedUserId = (userId == null || userId.isEmpty()) ? DEFAULT_USER_ID : userId;
+        return cartRepository.findByUserId(resolvedUserId)
+                .orElseGet(() -> cartRepository.save(new Cart(resolvedUserId)));
     }
 
     public Cart addToCart(Product product) {
-        Cart cart = getCart();
+        return addToCart(product, DEFAULT_USER_ID);
+    }
+
+    public Cart addToCart(Product product, String userId) {
+        Cart cart = getCartForUser(userId);
         cart.addProduct(product);
         return cartRepository.save(cart);
     }
 
     public Cart removeFromCart(String productId) {
-        Cart cart = getCart();
+        return removeFromCart(productId, DEFAULT_USER_ID);
+    }
+
+    public Cart removeFromCart(String productId, String userId) {
+        Cart cart = getCartForUser(userId);
         cart.removeProduct(productId);
         return cartRepository.save(cart);
     }
 
+    public Cart updateFulfilmentMethod(String userId, FulfilmentMethod method) {
+        Cart cart = getCartForUser(userId);
+        cart.setFulfilmentMethod(method);
+        return cartRepository.save(cart);
+    }
+
     public void clearCart() {
-        Cart cart = getCart();
-        cart.getItems().clear();
+        clearCart(DEFAULT_USER_ID);
+    }
+
+    public void clearCart(String userId) {
+        Cart cart = getCartForUser(userId);
+        cart.clear();
         cartRepository.save(cart);
+    }
+
+    public Cart save(Cart cart) {
+        return cartRepository.save(cart);
     }
 }

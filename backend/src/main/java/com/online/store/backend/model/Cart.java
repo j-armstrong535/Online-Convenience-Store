@@ -1,18 +1,22 @@
 package com.online.store.backend.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 @Document("carts")
 public class Cart {
+
+    private static final double TAX_RATE = 0.1;
+    private static final double DELIVERY_SURCHARGE = 7.5;
 
     @Id
     private String id;
     private String userId; // optional if you implement login
     private List<CartItem> items = new ArrayList<>();
+    private FulfilmentMethod fulfilmentMethod = FulfilmentMethod.PICKUP;
 
     public Cart() {
     }
@@ -45,7 +49,18 @@ public class Cart {
         this.items = items;
     }
 
+    public FulfilmentMethod getFulfilmentMethod() {
+        return fulfilmentMethod;
+    }
+
+    public void setFulfilmentMethod(FulfilmentMethod fulfilmentMethod) {
+        this.fulfilmentMethod = fulfilmentMethod;
+    }
+
     public void addProduct(Product product) {
+        if (product == null) {
+            return;
+        }
         for (CartItem item : items) {
             if (item.getProduct().getId().equals(product.getId())) {
                 item.setQuantity(item.getQuantity() + 1);
@@ -60,7 +75,31 @@ public class Cart {
     }
 
     public double getTotalPrice() {
-        return items.stream().mapToDouble(CartItem::getTotalPrice).sum();
+        return getGrandTotal();
+    }
+
+    public double getSubtotal() {
+        return round(items.stream().mapToDouble(CartItem::getTotalPrice).sum());
+    }
+
+    public double getTaxAmount() {
+        return round(getSubtotal() * TAX_RATE);
+    }
+
+    public double getDeliverySurcharge() {
+        return requiresDelivery() ? DELIVERY_SURCHARGE : 0.0;
+    }
+
+    public double getGrandTotal() {
+        return round(getSubtotal() + getTaxAmount() + getDeliverySurcharge());
+    }
+
+    public boolean requiresDelivery() {
+        return fulfilmentMethod == FulfilmentMethod.DELIVERY;
+    }
+
+    public void clear() {
+        items.clear();
     }
 
     @Override
@@ -70,5 +109,9 @@ public class Cart {
                 ", totalItems=" + items.size() +
                 ", totalPrice=" + getTotalPrice() +
                 '}';
+    }
+
+    private double round(double value) {
+        return Math.round(value * 100.0) / 100.0;
     }
 }

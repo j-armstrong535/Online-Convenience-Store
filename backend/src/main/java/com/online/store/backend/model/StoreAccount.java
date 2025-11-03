@@ -5,10 +5,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document("store_accounts")
 public class StoreAccount extends Account {
 
-    // Additional fields for StoreAccount
     private String role; // e.g., "manager", "administrator"
     private String accessLevel;
     private String department;
+    private int inventoryUpdates;
+    private int reportsGenerated;
+    private int returnsProcessed;
+    private int staffActions;
 
     public StoreAccount() {
         super();
@@ -21,49 +24,31 @@ public class StoreAccount extends Account {
         this.role = role;
     }
 
-    // StoreAccount specific methods based on CRC card responsibilities
-
-    /**
-     * View and update store inventory
-     * Collaborators: Inventory
-     */
+    /** View and update store inventory. */
     public void manageInventory() {
-        // Implementation for managing store inventory
+        inventoryUpdates++;
     }
 
-    /**
-     * Generate reports and sales summarise
-     * Collaborators: SalesRecord
-     */
+    /** Generate reports and sales summarise. */
     public void generateSalesReports() {
-        // Implementation for generating sales reports
+        reportsGenerated++;
     }
 
-    /**
-     * Approve or reject customer returns
-     * Collaborators: Receipt, SalesRecord
-     */
+    /** Approve or reject customer returns. */
     public void processCustomerReturns() {
-        // Implementation for processing customer returns
+        returnsProcessed++;
     }
 
-    /**
-     * Manage staff and supplier accounts
-     * Collaborators: Account, Supplier
-     */
+    /** Manage staff and supplier accounts. */
     public void manageStaffAndSuppliers() {
-        // Implementation for managing staff and supplier accounts
+        staffActions++;
     }
 
-    /**
-     * Modify product categories and prices
-     * Collaborators: Product, ProductCategory
-     */
+    /** Modify product categories and prices. */
     public void modifyProductsAndCategories() {
-        // Implementation for modifying products and categories
+        inventoryUpdates++;
     }
 
-    // Administrative methods for store management
     public boolean hasInventoryAccess() {
         return "manager".equals(role) || "administrator".equals(role);
     }
@@ -76,7 +61,6 @@ public class StoreAccount extends Account {
         return "administrator".equals(role);
     }
 
-    // Getters and Setters for StoreAccount specific fields
     public String getRole() {
         return role;
     }
@@ -99,5 +83,21 @@ public class StoreAccount extends Account {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public int getInventoryUpdates() {
+        return inventoryUpdates;
+    }
+
+    public int getReportsGenerated() {
+        return reportsGenerated;
+    }
+
+    public int getReturnsProcessed() {
+        return returnsProcessed;
+    }
+
+    public int getStaffActions() {
+        return staffActions;
     }
 }

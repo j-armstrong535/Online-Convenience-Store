@@ -1,14 +1,21 @@
 package com.online.store.backend.model;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("customer_accounts")
 public class CustomerAccount extends Account {
 
-    // Additional fields for CustomerAccount
     private String shippingAddress;
     private String paymentMethod;
-    private String orderHistory;
+    private LocalDateTime profileLastUpdated;
+    private LocalDateTime lastCartInteraction;
+    private int checkoutCount;
+    private final List<String> receiptHistory = new ArrayList<>();
 
     public CustomerAccount() {
         super();
@@ -20,59 +27,42 @@ public class CustomerAccount extends Account {
         setEmail(email);
     }
 
-    // CustomerAccount specific methods based on CRC card responsibilities
-
-    /**
-     * Store customer profile (account information)
-     * Collaborators: Database
-     */
+    /** Store customer profile (account information). */
     public void storeCustomerProfile() {
-        // Implementation for storing customer profile information
+        this.profileLastUpdated = LocalDateTime.now();
     }
 
-    /**
-     * Access and manage ShoppingCart contents
-     * Collaborators: ShoppingCart
-     */
+    /** Access and manage ShoppingCart contents. */
     public void manageShoppingCart() {
-        // Implementation for managing shopping cart
+        this.lastCartInteraction = LocalDateTime.now();
     }
 
-    /**
-     * View order history and receipts
-     * Collaborators: Receipt, SalesRecord
-     */
-    public void viewOrderHistory() {
-        // Implementation for viewing order history
-        // May need to change from void to another return type if
-        // necessary to return order history data to the user
+    /** View order history and receipts. */
+    public List<String> viewOrderHistory() {
+        return Collections.unmodifiableList(receiptHistory);
     }
 
-    /**
-     * Initiate checkout and payment process
-     * Collaborators: Checkout, Payment
-     */
+    /** Initiate checkout and payment process. */
     public void initiateCheckout() {
-        // Implementation for checkout process
+        this.checkoutCount++;
     }
 
-    /**
-     * Update or delete account information
-     * Collaborators: Database
-     */
+    /** Update or delete account information. */
     public void updateAccountInfo() {
-        // Implementation for updating account information
+        this.profileLastUpdated = LocalDateTime.now();
     }
 
-    /**
-     * Can view product / category information
-     * Collaborators: Inventory
-     */
+    /** Can view product / category information. */
     public void viewProductInfo() {
-        // Implementation for viewing product information
+        // Method kept for parity with CRC; additional behaviour can be added later.
     }
 
-    // Getters and Setters for CustomerAccount specific fields
+    public void recordPurchase(Receipt receipt) {
+        if (receipt != null) {
+            receiptHistory.add(receipt.getId());
+        }
+    }
+
     public String getShippingAddress() {
         return shippingAddress;
     }
@@ -89,11 +79,15 @@ public class CustomerAccount extends Account {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getOrderHistory() {
-        return orderHistory;
+    public LocalDateTime getProfileLastUpdated() {
+        return profileLastUpdated;
     }
 
-    public void setOrderHistory(String orderHistory) {
-        this.orderHistory = orderHistory;
+    public LocalDateTime getLastCartInteraction() {
+        return lastCartInteraction;
+    }
+
+    public int getCheckoutCount() {
+        return checkoutCount;
     }
 }
