@@ -1,5 +1,5 @@
 import api from "./api";
-import { getCustomerAccountId, setCustomerAccountId } from "./user";
+import { getCustomerAccountId, setCustomerAccountId, getOrCreateCartUserId } from "./user";
 import { fetchCartItems, clearCart, readCachedCart } from "./cart";
 
 export function getCachedCartSummary() {
@@ -17,8 +17,8 @@ export async function loadCartForCheckout() {
 export async function submitCheckout(payload) {
   const accountId = getCustomerAccountId();
   const requestBody = accountId
-    ? { ...payload, customerAccountId: accountId }
-    : payload;
+    ? { ...payload, customerAccountId: accountId, cartUserId: getOrCreateCartUserId() }
+    : { ...payload, cartUserId: getOrCreateCartUserId() };
 
   const response = await api.post("/checkout", requestBody);
 

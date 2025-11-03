@@ -40,9 +40,12 @@ public class CheckoutService {
      * Performs the full checkout workflow and returns the issued receipt and payment record.
      */
     @Transactional
-    public Result checkout(Account customerAccount, PaymentMethod paymentMethod, FulfilmentMethod fulfilmentMethod) {
-        String userId = customerAccount != null ? customerAccount.getId() : null;
-        Cart cart = cartService.getCartForUser(userId);
+    public Result checkout(Account customerAccount, PaymentMethod paymentMethod,
+            FulfilmentMethod fulfilmentMethod, String cartUserId) {
+        String cartOwnerId = (cartUserId != null && !cartUserId.isBlank())
+                ? cartUserId
+                : (customerAccount != null ? customerAccount.getId() : null);
+        Cart cart = cartService.getCartForUser(cartOwnerId);
         cart.setFulfilmentMethod(fulfilmentMethod);
         cartService.save(cart);
 
@@ -61,7 +64,7 @@ public class CheckoutService {
 
         inventoryService.applyOrder(cart);
         checkout.clearCart();
-        cartService.clearCart(userId);
+        cartService.clearCart(cartOwnerId);
 
         return new Result(receipt, payment);
     }

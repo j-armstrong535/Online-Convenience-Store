@@ -48,7 +48,8 @@ public class CheckoutController {
         CheckoutService.Result result = checkoutService.checkout(
                 account,
                 request.getPaymentMethod(),
-                request.getFulfilmentMethod());
+                request.getFulfilmentMethod(),
+                request.getCartUserId());
         Receipt receipt = result.getReceipt();
         return new CheckoutResponse(
                 receipt.getId(),
@@ -139,6 +140,7 @@ public class CheckoutController {
         private String customerAccountId;
         private String username;
         private String email;
+        private String cartUserId;
         private PaymentMethod paymentMethod;
         private FulfilmentMethod fulfilmentMethod;
         private AccountType accountType;
@@ -169,6 +171,14 @@ public class CheckoutController {
 
         public void setEmail(String email) {
             this.email = email;
+        }
+
+        public String getCartUserId() {
+            return cartUserId;
+        }
+
+        public void setCartUserId(String cartUserId) {
+            this.cartUserId = cartUserId;
         }
 
         public PaymentMethod getPaymentMethod() {
