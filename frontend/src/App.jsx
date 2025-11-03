@@ -8,6 +8,7 @@ import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import ProductsPage from "./pages/ProductsPage";
 import PaymentPage from "./pages/PaymentPage";
+import ReceiptPage from "./pages/ReceiptPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import ProfilePage from "./pages/ProfilePage";
 import TransactionHistoryPage from "./pages/TransactionHistoryPage";
@@ -18,12 +19,13 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <main style={{ paddingTop: "4.5rem" }}>
+      <main style={{ paddingTop: "0rem" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/receipt" element={<ReceiptPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/transactions" element={<TransactionHistoryPage />} />

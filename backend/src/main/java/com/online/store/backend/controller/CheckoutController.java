@@ -51,12 +51,7 @@ public class CheckoutController {
                 request.getFulfilmentMethod(),
                 request.getCartUserId());
         Receipt receipt = result.getReceipt();
-        return new CheckoutResponse(
-                receipt.getId(),
-                receipt.getTotalCost(),
-                receipt.getIssuedAt(),
-                receipt.getPaymentReference(),
-                result.getPayment().getMethod());
+        return CheckoutResponse.from(receipt, result.getPayment());
     }
 
     private Account buildAccount(CheckoutRequest request) {
@@ -239,39 +234,66 @@ public class CheckoutController {
     }
 
     public static class CheckoutResponse {
-        private final String receiptId;
-        private final double total;
-        private final LocalDateTime issuedAt;
-        private final String paymentReference;
-        private final PaymentMethod paymentMethod;
+        private final Receipt receipt;
+        private final PaymentSummary payment;
 
-        public CheckoutResponse(String receiptId, double total, LocalDateTime issuedAt,
-                String paymentReference, PaymentMethod paymentMethod) {
-            this.receiptId = receiptId;
-            this.total = total;
-            this.issuedAt = issuedAt;
-            this.paymentReference = paymentReference;
-            this.paymentMethod = paymentMethod;
+        private CheckoutResponse(Receipt receipt, PaymentSummary payment) {
+            this.receipt = receipt;
+            this.payment = payment;
         }
 
-        public String getReceiptId() {
-            return receiptId;
+        public static CheckoutResponse from(Receipt receipt, com.online.store.backend.model.Payment payment) {
+            PaymentSummary summary = PaymentSummary.from(payment);
+            return new CheckoutResponse(receipt, summary);
         }
 
-        public double getTotal() {
-            return total;
+        public Receipt getReceipt() {
+            return receipt;
         }
 
-        public LocalDateTime getIssuedAt() {
-            return issuedAt;
+        public PaymentSummary getPayment() {
+            return payment;
+        }
+    }
+
+    public static class PaymentSummary {
+        private final PaymentMethod method;
+        private final double amount;
+        private final String reference;
+        private final LocalDateTime processedAt;
+
+        private PaymentSummary(PaymentMethod method, double amount, String reference, LocalDateTime processedAt) {
+            this.method = method;
+            this.amount = amount;
+            this.reference = reference;
+            this.processedAt = processedAt;
         }
 
-        public String getPaymentReference() {
-            return paymentReference;
+        public static PaymentSummary from(com.online.store.backend.model.Payment payment) {
+            if (payment == null) {
+                return new PaymentSummary(null, 0.0, null, null);
+            }
+            return new PaymentSummary(
+                    payment.getMethod(),
+                    payment.getAmount(),
+                    payment.getTransactionReference(),
+                    payment.getProcessedAt());
         }
 
-        public PaymentMethod getPaymentMethod() {
-            return paymentMethod;
+        public PaymentMethod getMethod() {
+            return method;
+        }
+
+        public double getAmount() {
+            return amount;
+        }
+
+        public String getReference() {
+            return reference;
+        }
+
+        public LocalDateTime getProcessedAt() {
+            return processedAt;
         }
     }
 }

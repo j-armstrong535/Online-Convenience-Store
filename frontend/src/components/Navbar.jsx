@@ -99,7 +99,7 @@ export default function Navbar() {
           className="navbar-title"
           onClick={() => handleNavigate("/")}
         >
-          Online Convenience Store
+          Hawthorn Convenience Store
         </button>
 
         <button

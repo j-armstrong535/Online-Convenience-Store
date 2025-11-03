@@ -6,6 +6,7 @@ import {
   loadCartForCheckout,
   submitCheckout,
 } from "../services/checkout";
+import { setCustomerAccountId } from "../services/user";
 import "../styles/main.css";
 
 const initialForm = {
@@ -92,15 +93,25 @@ export default function PaymentPage() {
     };
 
     try {
-      const receipt = await submitCheckout(payload);
+      const result = await submitCheckout(payload);
+      const receipt = result?.receipt;
       toast.success(
-        `💳 Payment successful! Receipt ${receipt.receiptId} generated.`,
+        `💳 Payment successful! Receipt ${receipt?.id ?? "generated"}.`,
         { autoClose: 2500 }
       );
       setCartItems([]);
       setSubtotal(0);
       setForm(initialForm);
-      setTimeout(() => navigate("/"), 2600);
+
+      if (result) {
+        if (result.receipt?.customerAccountId) {
+          setCustomerAccountId(result.receipt.customerAccountId);
+        }
+        sessionStorage.setItem("latestReceipt", JSON.stringify(result));
+        navigate("/receipt", { state: result });
+      } else {
+        setTimeout(() => navigate("/"), 2600);
+      }
     } catch (err) {
       console.error("Checkout failed", err);
       toast.error("Payment failed. Please try again.");
