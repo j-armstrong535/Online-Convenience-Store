@@ -1,19 +1,27 @@
 package com.online.store.backend.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.online.store.backend.model.Account;
 import com.online.store.backend.model.AccountFactory;
 import com.online.store.backend.model.AccountType;
+import com.online.store.backend.model.StoreAccount;
 import com.online.store.backend.service.AccountService;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * REST Controller demonstrating the use of AccountFactory in API endpoints
- * Shows how the Factory pattern simplifies account creation in web services
+ * REST Controller demonstrating account creation and login via AccountFactory and AccountService.
  */
 @RestController
 @RequestMapping("/api/accounts")
@@ -26,10 +34,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    /**
-     * Creates a new account using the factory pattern
-     * POST /api/accounts
-     */
+    /** -------------------- ACCOUNT CREATION (GENERIC) -------------------- **/
     @PostMapping
     public ResponseEntity<Map<String, Object>> createAccount(@RequestBody CreateAccountRequest request) {
         try {
@@ -43,35 +48,21 @@ public class AccountController {
                     .department(request.getDepartment())
                     .accessLevel(request.getAccessLevel())
                     .build();
+
             account = accountService.saveAccount(account);
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("message", "Account created successfully");
-            response.put("accountType", account.getClass().getSimpleName());
-            response.put("username", account.getUsername());
-            response.put("email", account.getEmail());
-            response.put("id", account.getId());
-
-            return ResponseEntity.ok(response);
-
-        } catch (IllegalArgumentException e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("success", false);
-            errorResponse.put("message", "Invalid account type: " + e.getMessage());
-            return ResponseEntity.badRequest().body(errorResponse);
+            return success("Account created successfully", Map.of(
+                    "id", account.getId(),
+                    "username", account.getUsername(),
+                    "email", account.getEmail(),
+                    "type", account.getClass().getSimpleName()
+            ));
         } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("success", false);
-            errorResponse.put("message", "Error creating account: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return error("Error creating account: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /**
-     * Creates a simple customer account
-     * POST /api/accounts/customer
-     */
+    /** -------------------- CUSTOMER ACCOUNT CREATION -------------------- **/
     @PostMapping("/customer")
     public ResponseEntity<Map<String, Object>> createCustomerAccount(@RequestBody CustomerAccountRequest request) {
         try {
@@ -81,27 +72,20 @@ public class AccountController {
                     request.getPassword(),
                     request.getFirstName(),
                     request.getLastName(),
-                    request.getShippingAddress());
+                    request.getShippingAddress()
+            );
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("message", "Customer account created successfully");
-            response.put("username", account.getUsername());
-            response.put("email", account.getEmail());
-
-            return ResponseEntity.ok(response);
+            return success("Customer account created successfully", Map.of(
+                    "username", account.getUsername(),
+                    "email", account.getEmail(),
+                    "id", account.getId()
+            ));
         } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("success", false);
-            errorResponse.put("message", "Error creating customer account: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return error("Error creating customer account: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /**
-     * Creates a store manager account
-     * POST /api/accounts/manager
-     */
+    /** -------------------- MANAGER ACCOUNT CREATION -------------------- **/
     @PostMapping("/manager")
     public ResponseEntity<Map<String, Object>> createManagerAccount(@RequestBody ManagerAccountRequest request) {
         try {
@@ -111,35 +95,93 @@ public class AccountController {
                     request.getPassword(),
                     request.getFirstName(),
                     request.getLastName(),
-                    request.getDepartment());
+                    request.getDepartment()
+            );
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("message", "Manager account created successfully");
-            response.put("username", account.getUsername());
-            response.put("email", account.getEmail());
-
-            return ResponseEntity.ok(response);
+            return success("Manager account created successfully", Map.of(
+                    "username", account.getUsername(),
+                    "email", account.getEmail(),
+                    "id", account.getId()
+            ));
         } catch (Exception e) {
-            Map<String, Object> errorResponse = new HashMap<>();
-            errorResponse.put("success", false);
-            errorResponse.put("message", "Error creating manager account: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+            return error("Error creating manager account: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    /**
-     * Gets available account types
-     * GET /api/accounts/types
-     */
-    @GetMapping("/types")
-    public ResponseEntity<Map<String, Object>> getAccountTypes() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("accountTypes", AccountType.values());
-        return ResponseEntity.ok(response);
+    /** -------------------- LOGIN ENDPOINT -------------------- **/
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest request) {
+        Optional<Account> accountOpt = accountService.findByEmail(request.getEmail());
+
+        if (accountOpt.isEmpty()) {
+            return error("Account not found", HttpStatus.UNAUTHORIZED);
+        }
+
+        Account account = accountOpt.get();
+        if (!account.getPassword().equals(request.getPassword())) {
+            return error("Invalid email or password", HttpStatus.UNAUTHORIZED);
+        }
+
+        // Determine type
+        String type = "customer";
+        if (account instanceof StoreAccount store) {
+            type = store.getAccessLevel().equalsIgnoreCase("administrator")
+                    ? "store_admin"
+                    : "store_manager";
+        }
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("id", account.getId());
+        data.put("username", account.getUsername());
+        data.put("email", account.getEmail());
+        data.put("accountType", type);
+        data.put("firstName", account.getFirstName());
+        data.put("lastName", account.getLastName());
+
+        return success("Login successful", data);
     }
 
-    // Inner classes for request DTOs
+    /** -------------------- GET ACCOUNT BY EMAIL -------------------- **/
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Map<String, Object>> getByEmail(@PathVariable String email) {
+        Optional<Account> accountOpt = accountService.findByEmail(email);
+
+        if (accountOpt.isEmpty()) {
+            return error("Account not found for email: " + email, HttpStatus.NOT_FOUND);
+        }
+
+        Account account = accountOpt.get();
+        return success("Account found", Map.of(
+                "id", account.getId(),
+                "username", account.getUsername(),
+                "email", account.getEmail(),
+                "type", account.getClass().getSimpleName()
+        ));
+    }
+
+    /** -------------------- ACCOUNT TYPES -------------------- **/
+    @GetMapping("/types")
+    public ResponseEntity<Map<String, Object>> getAccountTypes() {
+        return success("Account types fetched", Map.of("accountTypes", AccountType.values()));
+    }
+
+    /** -------------------- Helper: success / error builders -------------------- **/
+    private ResponseEntity<Map<String, Object>> success(String message, Object data) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("success", true);
+        body.put("message", message);
+        body.put("data", data);
+        return ResponseEntity.ok(body);
+    }
+
+    private ResponseEntity<Map<String, Object>> error(String message, HttpStatus status) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("success", false);
+        body.put("message", message);
+        return ResponseEntity.status(status).body(body);
+    }
+
+    /** -------------------- Request DTOs -------------------- **/
     public static class CreateAccountRequest {
         private String accountType;
         private String username;
@@ -152,86 +194,29 @@ public class AccountController {
         private String department;
         private String accessLevel;
 
-        // Getters and setters
         public AccountType getAccountType() {
             return AccountType.fromString(accountType);
         }
 
-        public void setAccountType(String accountType) {
-            this.accountType = accountType;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public String getShippingAddress() {
-            return shippingAddress;
-        }
-
-        public void setShippingAddress(String shippingAddress) {
-            this.shippingAddress = shippingAddress;
-        }
-
-        public String getPaymentMethod() {
-            return paymentMethod;
-        }
-
-        public void setPaymentMethod(String paymentMethod) {
-            this.paymentMethod = paymentMethod;
-        }
-
-        public String getDepartment() {
-            return department;
-        }
-
-        public void setDepartment(String department) {
-            this.department = department;
-        }
-
-        public String getAccessLevel() {
-            return accessLevel;
-        }
-
-        public void setAccessLevel(String accessLevel) {
-            this.accessLevel = accessLevel;
-        }
+        public void setAccountType(String accountType) { this.accountType = accountType; }
+        public String getUsername() { return username; }
+        public void setUsername(String username) { this.username = username; }
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
+        public String getFirstName() { return firstName; }
+        public void setFirstName(String firstName) { this.firstName = firstName; }
+        public String getLastName() { return lastName; }
+        public void setLastName(String lastName) { this.lastName = lastName; }
+        public String getShippingAddress() { return shippingAddress; }
+        public void setShippingAddress(String shippingAddress) { this.shippingAddress = shippingAddress; }
+        public String getPaymentMethod() { return paymentMethod; }
+        public void setPaymentMethod(String paymentMethod) { this.paymentMethod = paymentMethod; }
+        public String getDepartment() { return department; }
+        public void setDepartment(String department) { this.department = department; }
+        public String getAccessLevel() { return accessLevel; }
+        public void setAccessLevel(String accessLevel) { this.accessLevel = accessLevel; }
     }
 
     public static class CustomerAccountRequest {
@@ -241,55 +226,18 @@ public class AccountController {
         private String firstName;
         private String lastName;
         private String shippingAddress;
-
-        // Getters and setters
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public String getShippingAddress() {
-            return shippingAddress;
-        }
-
-        public void setShippingAddress(String shippingAddress) {
-            this.shippingAddress = shippingAddress;
-        }
+        public String getUsername() { return username; }
+        public void setUsername(String username) { this.username = username; }
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
+        public String getFirstName() { return firstName; }
+        public void setFirstName(String firstName) { this.firstName = firstName; }
+        public String getLastName() { return lastName; }
+        public void setLastName(String lastName) { this.lastName = lastName; }
+        public String getShippingAddress() { return shippingAddress; }
+        public void setShippingAddress(String shippingAddress) { this.shippingAddress = shippingAddress; }
     }
 
     public static class ManagerAccountRequest {
@@ -299,54 +247,26 @@ public class AccountController {
         private String firstName;
         private String lastName;
         private String department;
+        public String getUsername() { return username; }
+        public void setUsername(String username) { this.username = username; }
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
+        public String getFirstName() { return firstName; }
+        public void setFirstName(String firstName) { this.firstName = firstName; }
+        public String getLastName() { return lastName; }
+        public void setLastName(String lastName) { this.lastName = lastName; }
+        public String getDepartment() { return department; }
+        public void setDepartment(String department) { this.department = department; }
+    }
 
-        // Getters and setters
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public String getDepartment() {
-            return department;
-        }
-
-        public void setDepartment(String department) {
-            this.department = department;
-        }
+    public static class LoginRequest {
+        private String email;
+        private String password;
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
     }
 }

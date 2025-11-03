@@ -785,3 +785,133 @@ button:hover {
 .pay-btn:hover {
   background: #b1001f;
 }
+
+/* ======= Auth Pages ======= */
+.auth-page {
+  max-width: 400px;
+  margin: 5rem auto;
+  background: #000;
+  color: #FFD100;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.auth-page h1 {
+  margin-bottom: 1.5rem;
+  color: #FFD100;
+  font-size: 1.8rem;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.7rem;
+  background: #111;
+  color: #FFD100;
+  border: 1px solid #FFD100;
+  border-radius: 6px;
+}
+
+.auth-btn {
+  background: #D80027;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-btn:hover {
+  background: #b1001f;
+}
+
+.auth-switch {
+  margin-top: 1rem;
+}
+
+.auth-switch a {
+  color: #FFD100;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  color: #fff;
+}
+
+/* Logout button (drawer style) */
+.logout-btn {
+  background: none;
+  border: 1px solid #FFD100;
+  color: #FFD100;
+  border-radius: 5px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.logout-btn:hover {
+  background: #FFD100;
+  color: #000;
+}
+
+/* Right-side section of navbar */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Login/Signup buttons */
+.navbar-auth-btn {
+  background: none;
+  border: 1px solid #FFD100;
+  color: #FFD100;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navbar-auth-btn:hover {
+  background: #FFD100;
+  color: #000;
+}
+
+/* Username label */
+.navbar-username {
+  color: #FFD100;
+  font-weight: 500;
+  margin-right: 0.3rem;
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-link {
+  background: none;
+  border: none;
+  color: #FFD100;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: #FFFFFF;
+}
+

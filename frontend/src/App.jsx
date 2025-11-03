@@ -13,6 +13,8 @@ import CategoriesPage from "./pages/CategoriesPage";
 import ProfilePage from "./pages/ProfilePage";
 import TransactionHistoryPage from "./pages/TransactionHistoryPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
+import LoginPage from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 import "./styles/main.css";
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/transactions" element={<TransactionHistoryPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
       </main>
 
