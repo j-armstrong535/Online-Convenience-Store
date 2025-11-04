@@ -55,7 +55,8 @@ export default function LoginPage() {
         <button type="submit" className="auth-btn">Login</button>
       </form>
       <p className="auth-switch">
-        Don't have an account? <a href="/signup">Sign up</a>
+        Don't have an account? <a href="/signup">Sign up</a> <br />
+        Part of the Store team? <a href="/store-login">Store Login</a>
       </p>
     </div>
   );

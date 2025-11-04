@@ -16,6 +16,9 @@ import TransactionHistoryPage from "./pages/TransactionHistoryPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import StoreLoginPage from "./pages/StoreLoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import StoreSignupPage from "./pages/StoreSignupPage";
 import "./styles/main.css";
 
 function App() {
@@ -44,9 +47,18 @@ function App() {
           />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/transactions" element={<TransactionHistoryPage />} />
-          <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route 
+            path="/analytics" 
+              element={
+                <ProtectedRoute allowedTypes={["StoreAccount"]}>
+                  <AnalyticsPage />
+                </ProtectedRoute>
+              } 
+          />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/store-login" element={<StoreLoginPage />} />
+          <Route path="/store-signup" element={<StoreSignupPage />} />
         </Routes>
       </main>
 
