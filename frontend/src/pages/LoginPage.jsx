@@ -35,8 +35,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
+    <div className="auth-page">
+      <h1>Login</h1>
       <form onSubmit={handleLogin} className="auth-form">
         <input
           type="email"
@@ -52,10 +52,10 @@ export default function LoginPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="auth-btn">Login</button>
       </form>
-      <p>
-        Don’t have an account? <a href="/signup">Sign up</a>
+      <p className="auth-switch">
+        Don't have an account? <a href="/signup">Sign up</a>
       </p>
     </div>
   );

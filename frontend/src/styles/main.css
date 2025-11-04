@@ -220,8 +220,8 @@ body {
 .navbar {
   background-color: #000;
   color: #FFD100;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: 0.9rem 1.8rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -241,7 +241,7 @@ body {
   font-size: 1.6rem;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   cursor: pointer;
   transition: color 0.2s ease;
 }
@@ -261,7 +261,8 @@ body {
   cursor: pointer;
   font-family: "Poppins", sans-serif;
   letter-spacing: 0.5px;
-  text-align: left;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .navbar-title:hover {
@@ -587,13 +588,13 @@ body {
   border-radius: 16px;
   padding: 1rem;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
   transition: all 0.25s ease;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* ======= Product Image ======= */
@@ -635,7 +636,8 @@ button:hover {
 }
 
 /* ======= Loading and Error ======= */
-.loading, .error {
+.loading,
+.error {
   text-align: center;
   font-size: 1rem;
   margin-top: 2rem;
@@ -732,7 +734,7 @@ button:hover {
 .payment-page h1 {
   font-size: 1.8rem;
   margin-bottom: 1.5rem;
-  color:  #111;
+  color: #111;
 }
 
 .payment-form {
@@ -807,16 +809,19 @@ button:hover {
 .auth-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1rem;
 }
 
 .auth-form input {
   width: 100%;
+  max-width: 320px;
   padding: 0.7rem;
   background: #111;
   color: #FFD100;
   border: 1px solid #FFD100;
   border-radius: 6px;
+  text-align: center;
 }
 
 .auth-btn {
@@ -825,6 +830,8 @@ button:hover {
   border: none;
   border-radius: 6px;
   padding: 0.8rem;
+  width: 100%;
+  max-width: 320px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
@@ -899,6 +906,7 @@ button:hover {
 .navbar-actions {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 1rem;
 }
 
@@ -914,4 +922,3 @@ button:hover {
 .navbar-link:hover {
   color: #FFFFFF;
 }
-

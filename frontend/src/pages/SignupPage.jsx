@@ -25,7 +25,7 @@ export default function SignupPage() {
       const res = await axios.post("http://localhost:8081/api/accounts/customer", form);
 
       if (res.data.success) {
-        // ✅ Save account info to localStorage
+        // Save account info to localStorage
         const userData = {
           username: form.username,
           email: form.email,
@@ -67,8 +67,8 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Sign Up</h2>
+    <div className="auth-page">
+      <h1>Sign Up</h1>
       <form onSubmit={handleSignup} className="auth-form">
         <input
           name="username"
@@ -107,9 +107,9 @@ export default function SignupPage() {
           placeholder="Shipping Address"
           onChange={handleChange}
         />
-        <button type="submit">Create Account</button>
+        <button type="submit" className="auth-btn">Create Account</button>
       </form>
-      <p>
+      <p className="auth-switch">
         Already have an account? <a href="/login">Login</a>
       </p>
     </div>
