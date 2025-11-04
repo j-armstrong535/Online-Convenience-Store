@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import { addProductToCart } from "../services/cart";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getProductImageUrl, handleImageError } from "../utils/imageUtils";
 import "../styles/main.css";
 
 export default function HomePage() {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.get("/products").then(res => setProducts(res.data));
@@ -20,6 +22,10 @@ export default function HomePage() {
       console.error("Error adding to cart:", error);
       alert("Failed to add to cart. Please try again.");
     }
+  };
+
+  const handleCategoryClick = (categoryName) => {
+    navigate(`/categories/${categoryName.toLowerCase()}`);
   };
 
   return (
@@ -37,10 +43,38 @@ export default function HomePage() {
       <section className="category-highlight">
         <h2>Explore Categories</h2>
         <div className="category-grid-premium">
-          <div className="category-card-premium"><span>Groceries</span></div>
-          <div className="category-card-premium"><span>Drinks</span></div>
-          <div className="category-card-premium"><span>Snacks</span></div>
-          <div className="category-card-premium"><span>Personal Care</span></div>
+          <div
+            className="category-card-premium clickable"
+            onClick={() => handleCategoryClick('groceries')}
+            role="button"
+            tabIndex={0}
+          >
+            <span>Groceries</span>
+          </div>
+          <div
+            className="category-card-premium clickable"
+            onClick={() => handleCategoryClick('drinks')}
+            role="button"
+            tabIndex={0}
+          >
+            <span>Drinks</span>
+          </div>
+          <div
+            className="category-card-premium clickable"
+            onClick={() => handleCategoryClick('snacks')}
+            role="button"
+            tabIndex={0}
+          >
+            <span>Snacks</span>
+          </div>
+          <div
+            className="category-card-premium clickable"
+            onClick={() => handleCategoryClick('personal care')}
+            role="button"
+            tabIndex={0}
+          >
+            <span>Personal Care</span>
+          </div>
         </div>
       </section>
 
@@ -51,10 +85,10 @@ export default function HomePage() {
           {products.slice(0, 4).map((p) => (
             <div className="product-card-premium" key={p.id}>
               <img
-                src={`https://res.cloudinary.com/dtglrc8my/image/upload/v1760861224/${p.id}.jpg`}
+                src={getProductImageUrl(p)}
                 alt={p.name}
                 style={{ width: "100%", height: "120px", objectFit: "cover", marginBottom: "0.5rem" }}
-                onError={e => { e.target.src = '/placeholder.png'; }}
+                onError={(e) => handleImageError(e, p)}
               />
               <h3>{p.name}</h3>
               <p>${p.price.toFixed(2)}</p>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import api from "../services/api";
 import { addProductToCart } from "../services/cart";
+import { getProductImageUrl, handleImageError } from "../utils/imageUtils";
 import "../styles/main.css";
 
 export default function ProductsPage() {
@@ -51,9 +52,9 @@ export default function ProductsPage() {
         {products.map((p) => (
           <div className="product-card" key={p.id}>
             <img
-              src={p.imageUrl || `https://via.placeholder.com/200?text=${p.name}`}
+              src={getProductImageUrl(p)}
               alt={p.name}
-              onError={(e) => (e.target.src = "/placeholder.png")}
+              onError={(e) => handleImageError(e, p)}
             />
             <div className="product-info">
               <h3>{p.name}</h3>

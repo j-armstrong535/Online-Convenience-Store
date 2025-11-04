@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
+import { getProductImageUrl, handleImageError } from "../utils/imageUtils";
 
 export default function ProductList() {
   const [products, setProducts] = useState([]);
@@ -25,10 +26,10 @@ export default function ProductList() {
         {products.map((p) => (
           <div className="card" key={p.id}>
             <img
-              src={`https://res.cloudinary.com/dtglrc8my/image/upload/${p.id}.jpg`}
+              src={getProductImageUrl(p)}
               alt={p.name}
               style={{ width: "100%", height: "120px", objectFit: "cover", marginBottom: "0.5rem" }}
-              onError={e => { e.target.src = '/placeholder.png'; }}
+              onError={(e) => handleImageError(e, p)}
             />
             <h3>{p.name}</h3>
             <p>{p.category}</p>

@@ -28,11 +28,18 @@ public class Product {
         this.stock = stock;
     }
 
-    // Cloudinary image URL
+    // Cloudinary image URL with fallback placeholder
     public String getImageUrl() {
-        if (id == null || id.isEmpty())
-            return null;
+        if (id == null || id.isEmpty()) {
+            return "https://i.imgur.com/EJLFNOwg.jpg";
+        }
         return "https://res.cloudinary.com/dtglrc8my/image/upload/v1760861224/" + id + ".jpg";
+    }
+
+    // Placeholder image URL for missing products
+    public String getPlaceholderUrl() {
+        return "https://i.imgur.com/EJLFNOwg.jpg" +
+                (name != null ? name.replace(" ", "+") : "Product");
     }
 
     // --- Getters/Setters (excluding stock) ---

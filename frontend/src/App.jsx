@@ -10,6 +10,7 @@ import ProductsPage from "./pages/ProductsPage";
 import PaymentPage from "./pages/PaymentPage";
 import ReceiptPage from "./pages/ReceiptPage";
 import CategoriesPage from "./pages/CategoriesPage";
+import CategoryProductsPage from "./pages/CategoryProductsPage";
 import ProfilePage from "./pages/ProfilePage";
 import TransactionHistoryPage from "./pages/TransactionHistoryPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/receipt" element={<ReceiptPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/categories/:categoryName" element={<CategoryProductsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/transactions" element={<TransactionHistoryPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
 
 const FEATURED_CATEGORIES = [
@@ -8,9 +9,9 @@ const FEATURED_CATEGORIES = [
     accent: "🥦",
   },
   {
-    name: "Beverages",
-    description: "Energising coffees, teas, juices, and chilled drinks.",
-    accent: "🥤",
+    name: "Candy",
+    description: "Sweet treats, chocolates, and confectionery delights.",
+    accent: "🍬",
   },
   {
     name: "Snacks",
@@ -18,23 +19,59 @@ const FEATURED_CATEGORIES = [
     accent: "🍿",
   },
   {
+    name: "Drinks",
+    description: "Energising coffees, teas, juices, and chilled beverages.",
+    accent: "🥤",
+  },
+  {
     name: "Personal Care",
     description: "Health, hygiene, and self-care favourites you rely on.",
     accent: "🧴",
   },
   {
-    name: "Household",
-    description: "Cleaning, storage, and home helpers to keep things running.",
+    name: "Alcohol",
+    description: "Wine, beer, spirits, and premium alcoholic beverages.",
+    accent: "🍷",
+  },
+  {
+    name: "Frozen Food",
+    description: "Frozen meals, ice cream, and convenient frozen items.",
+    accent: "🧊",
+  },
+  {
+    name: "Desserts",
+    description: "Cakes, pastries, ice cream, and sweet indulgences.",
+    accent: "🍰",
+  },
+  {
+    name: "Deli",
+    description: "Fresh deli meats, cheeses, and prepared foods.",
+    accent: "🧀",
+  },
+  {
+    name: "Condiments & Spices",
+    description: "Sauces, seasonings, and flavor enhancers for your kitchen.",
+    accent: "🧂",
+  },
+  {
+    name: "Household & Cleaning",
+    description: "Cleaning supplies, storage, and home maintenance products.",
     accent: "🏠",
   },
   {
-    name: "Express Deals",
-    description: "Limited offers on bestsellers—updated throughout the day.",
-    accent: "⚡",
+    name: "Pet Care",
+    description: "Food, treats, and supplies for your furry friends.",
+    accent: "🐾",
   },
 ];
 
 export default function CategoriesPage() {
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoryName) => {
+    navigate(`/categories/${categoryName.toLowerCase()}`);
+  };
+
   return (
     <div className="page-container">
       <header className="page-header">
@@ -46,7 +83,18 @@ export default function CategoriesPage() {
 
       <section className="category-grid-detailed">
         {FEATURED_CATEGORIES.map((category) => (
-          <article key={category.name} className="category-card-detailed">
+          <article
+            key={category.name}
+            className="category-card-detailed clickable"
+            onClick={() => handleCategoryClick(category.name)}
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                handleCategoryClick(category.name);
+              }
+            }}
+          >
             <div className="category-card-accent">{category.accent}</div>
             <div>
               <h2>{category.name}</h2>
