@@ -39,45 +39,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Category Highlights */}
-      <section className="category-highlight">
-        <h2>Explore Categories</h2>
-        <div className="category-grid-premium">
-          <div
-            className="category-card-premium clickable"
-            onClick={() => handleCategoryClick('groceries')}
-            role="button"
-            tabIndex={0}
-          >
-            <span>Groceries</span>
-          </div>
-          <div
-            className="category-card-premium clickable"
-            onClick={() => handleCategoryClick('drinks')}
-            role="button"
-            tabIndex={0}
-          >
-            <span>Drinks</span>
-          </div>
-          <div
-            className="category-card-premium clickable"
-            onClick={() => handleCategoryClick('snacks')}
-            role="button"
-            tabIndex={0}
-          >
-            <span>Snacks</span>
-          </div>
-          <div
-            className="category-card-premium clickable"
-            onClick={() => handleCategoryClick('personal care')}
-            role="button"
-            tabIndex={0}
-          >
-            <span>Personal Care</span>
-          </div>
-        </div>
-      </section>
-
       {/* Featured Products */}
       <section className="featured-premium">
         <h2>Featured Products</h2>
