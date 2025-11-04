@@ -4,7 +4,8 @@ import { toast } from "react-toastify";
 import api from "../services/api";
 import { addProductToCart } from "../services/cart";
 import { getProductImageUrl, handleImageError } from "../utils/imageUtils";
-import "../styles/main.css";
+//import "../styles/main.css";
+import "../styles/ProductCategory.css";
 
 export default function CategoryProductsPage() {
     const { categoryName } = useParams();
