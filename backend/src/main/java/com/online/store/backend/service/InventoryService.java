@@ -64,4 +64,5 @@ public class InventoryService {
     public Integer getStockLevel(String productId) {
         return inventory.getStockLevel(productId);
     }
+
 }

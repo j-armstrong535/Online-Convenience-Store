@@ -1,0 +1,121 @@
+.analytics-container {
+  padding: 2rem;
+  color: #eee;
+  background-color: #1b1b1b;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.analytics-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.analytics-header h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  color: #00bcd4;
+}
+
+.analytics-header p {
+  color: #bbb;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.analytics-card {
+  background: #242424;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.analytics-card:hover {
+  transform: translateY(-4px);
+}
+
+.analytics-card h2 {
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.analytics-value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00bcd4;
+  margin: 0.5rem 0;
+}
+
+.analytics-subtext {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.analytics-card.warning .analytics-value {
+  color: #ff5252;
+}
+
+.analytics-chart {
+  background: #242424;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.loading, .error, .restricted {
+  text-align: center;
+  color: #ccc;
+  padding: 3rem;
+}
+
+.refresh-button {
+  background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+  border: none;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 114, 255, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.refresh-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 114, 255, 0.45);
+  background: linear-gradient(135deg, #009cff 0%, #005de8 100%);
+}
+
+.refresh-button:active {
+  transform: scale(0.97);
+}
+
+.refresh-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.refresh-icon {
+  animation: none;
+  font-size: 18px;
+}
+
+.refresh-button.spinning .refresh-icon {
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -36,4 +36,8 @@ public class ReceiptService {
         return receiptRepository.findById(receiptId)
                 .orElseThrow(() -> new IllegalArgumentException("Receipt not found: " + receiptId));
     }
+
+    public List<Receipt> getAllReceipts() {
+        return receiptRepository.findAll();
+    }
 }
