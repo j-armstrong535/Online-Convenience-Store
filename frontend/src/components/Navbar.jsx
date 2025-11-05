@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { FaBars, FaShoppingCart, FaTimes } from "react-icons/fa";
+import { FaBars, FaShoppingCart, FaTimes, FaSearch } from "react-icons/fa";
 import { fetchCartItems, readCachedCart } from "../services/cart";
 import "../styles/main.css";
 
@@ -44,16 +44,10 @@ export default function Navbar() {
       setAccountType(storedType);
     };
 
-    // Initialize state on mount
     updateLoginState();
 
     const handleStorageChange = (event) => {
-      // Handle both manual dispatch and normal localStorage updates
-      if (
-        !event.key || // manual Event("storage")
-        event.key === USER_KEY ||
-        event.key === ACCOUNT_TYPE_KEY
-      ) {
+      if (!event.key || event.key === USER_KEY || event.key === ACCOUNT_TYPE_KEY) {
         updateLoginState();
       }
     };
@@ -96,10 +90,7 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem(USER_KEY);
     localStorage.removeItem(ACCOUNT_TYPE_KEY);
-
-    // 🔥 trigger Navbar refresh instantly
     window.dispatchEvent(new Event("storage"));
-
     setIsLoggedIn(false);
     navigate("/");
   };
@@ -107,74 +98,83 @@ export default function Navbar() {
   return (
     <>
       <nav className="navbar appbar dark-theme">
-        <button
-          type="button"
-          className="drawer-toggle"
-          onClick={toggleDrawer}
-          aria-label="Open navigation menu"
-        >
-          <FaBars />
-        </button>
 
-        <button
-          type="button"
-          className="navbar-title"
-          onClick={() => handleNavigate("/")}
-        >
-          Hawthorn Convenience Store
-        </button>
-
-        <div className="navbar-actions">
-          {isLoggedIn ? (
-            <>
-              <button
-                type="button"
-                className="navbar-link"
-                onClick={() => handleNavigate("/profile")}
-              >
-                Account
-              </button>
-              <button
-                type="button"
-                className="navbar-link"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                type="button"
-                className="navbar-link"
-                onClick={() => handleNavigate("/login")}
-              >
-                Login
-              </button>
-              <button
-                type="button"
-                className="navbar-link"
-                onClick={() => handleNavigate("/signup")}
-              >
-                Signup
-              </button>
-            </>
-          )}
+        {/* ==== NEW STRUCTURED SECTIONS ==== */}
+        <div className="navbar-left">
+          <button
+            type="button"
+            className="drawer-toggle"
+            onClick={toggleDrawer}
+            aria-label="Open navigation menu"
+          >
+            <FaBars />
+          </button>
 
           <button
             type="button"
-            className="navbar-cart-link"
-            onClick={() => handleNavigate("/cart")}
-            aria-label="Go to cart"
+            className="navbar-title"
+            onClick={() => handleNavigate("/")}
           >
-            <FaShoppingCart className="navbar-cart-icon" />
-            {cartCount > 0 && (
-              <span className="navbar-cart-badge">{cartCount}</span>
-            )}
+            Hawthorn Convenience Store
           </button>
+        </div>
+
+
+        {/* ==== ACTION BUTTONS (RIGHT) ==== */}
+        <div className="navbar-right">
+          <div className="navbar-actions">
+            {isLoggedIn ? (
+              <>
+                <button
+                  type="button"
+                  className="navbar-link"
+                  onClick={() => handleNavigate("/profile")}
+                >
+                  Account
+                </button>
+                <button
+                  type="button"
+                  className="navbar-link"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="navbar-link"
+                  onClick={() => handleNavigate("/login")}
+                >
+                  Login
+                </button>
+                <button
+                  type="button"
+                  className="navbar-link"
+                  onClick={() => handleNavigate("/signup")}
+                >
+                  Signup
+                </button>
+              </>
+            )}
+
+            <button
+              type="button"
+              className="navbar-cart-link"
+              onClick={() => handleNavigate("/cart")}
+              aria-label="Go to cart"
+            >
+              <FaShoppingCart className="navbar-cart-icon" />
+              {cartCount > 0 && (
+                <span className="navbar-cart-badge">{cartCount}</span>
+              )}
+            </button>
+          </div>
         </div>
       </nav>
 
+      {/* ===== Drawer ===== */}
       <aside className={`nav-drawer ${drawerOpen ? "open" : ""}`}>
         <div className="nav-drawer-header">
           <h2>Menu</h2>

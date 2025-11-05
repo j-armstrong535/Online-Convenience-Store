@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/main.css";
+import "../styles/ProductCategory.css";
 
 const FEATURED_CATEGORIES = [
   {

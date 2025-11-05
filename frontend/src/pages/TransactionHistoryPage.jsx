@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { listReceipts } from "../services/receipt";
 import { getCustomerAccountId } from "../services/user";
 import "../styles/main.css";
+import "../styles/Trans.css";
 
 export default function TransactionHistoryPage() {
   const [receipts, setReceipts] = useState([]);

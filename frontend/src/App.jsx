@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -22,18 +22,29 @@ import StoreSignupPage from "./pages/StoreSignupPage";
 import "./styles/main.css";
 
 function App() {
+  // --- Global search state ---
+  const [searchTerm, setSearchTerm] = useState("");
+
   return (
     <Router>
-      <Navbar />
+      {/* Pass searchTerm and setSearchTerm to Navbar */}
+      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+
       <main style={{ paddingTop: "0rem" }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/products" element={<ProductsPage />} />
+          <Route
+            path="/products"
+            element={<ProductsPage searchTerm={searchTerm} />}
+          />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/receipt" element={<ReceiptPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/categories/:categoryName" element={<CategoryProductsPage />} />
+          <Route
+            path="/categories/:categoryName"
+            element={<CategoryProductsPage searchTerm={searchTerm} />}
+          />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/transactions" element={<TransactionHistoryPage />} />
           <Route 
@@ -60,7 +71,6 @@ function App() {
         pauseOnHover
         theme="colored"
       />
-
     </Router>
   );
 }
