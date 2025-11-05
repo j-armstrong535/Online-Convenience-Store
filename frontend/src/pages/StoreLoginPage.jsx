@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "../styles/main.css";
+import "../styles/storeportal.css";
 
 export default function StoreLoginPage() {
   const [email, setEmail] = useState("");

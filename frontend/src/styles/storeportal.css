@@ -1,0 +1,174 @@
+/* ======= STORE PORTAL AUTH (matches main theme but more premium) ======= */
+.store-auth {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top, #000 0%, #0d0d0d 60%, #111 100%);
+  color: #FFD100;
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* --- Auth Card --- */
+.auth-card {
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid #FFD100;
+  border-radius: 14px;
+  box-shadow: 0 0 25px rgba(255, 209, 0, 0.15);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.8s ease;
+}
+
+/* --- Title & Subtitle --- */
+.auth-title {
+  color: #FFD100;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.5px;
+}
+
+.auth-subtitle {
+  color: #fff;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-bottom: 2rem;
+}
+
+/* --- Centered Form --- */
+.auth-form {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 auto;
+}
+
+/* --- Input Groups --- */
+.input-group {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.input-group label {
+  width: 100%;
+  color: #FFD100;
+  font-size: 0.95rem;
+  margin-bottom: 0.35rem;
+}
+
+/* --- Input Boxes --- */
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  background: #0a0a0a;
+  border: 1px solid #FFD100;
+  border-radius: 10px;
+  color: #FFD100;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.input-group input::placeholder {
+  color: rgba(255, 209, 0, 0.5);
+}
+
+/* --- Focus Glow --- */
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #FFD100;
+  box-shadow: 0 0 10px rgba(255, 209, 0, 0.45);
+  outline: none;
+  background: #111;
+}
+
+/* --- Buttons --- */
+.auth-btn {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(135deg, #D80027, #a3001c);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 0.95rem;
+  margin-top: 0.25rem;
+  transition: all 0.25s ease;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(216, 0, 39, 0.35);
+}
+
+.auth-btn:hover {
+  background: linear-gradient(135deg, #ff0030, #d20025);
+  box-shadow: 0 0 16px rgba(216, 0, 39, 0.5);
+  transform: translateY(-2px);
+}
+
+.auth-btn:active {
+  transform: scale(0.97);
+}
+
+/* --- Links --- */
+.auth-switch {
+  margin-top: 1.3rem;
+  font-size: 0.9rem;
+  color: #FFD100;
+}
+
+.auth-switch a {
+  color: #FFD100;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-switch a:hover {
+  color: #fff;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 520px) {
+  .auth-card {
+    max-width: 92vw;
+    padding: 2rem 1.25rem;
+  }
+
+  .auth-form,
+  .input-group,
+  .auth-btn {
+    max-width: 100%;
+  }
+
+  .auth-title {
+    font-size: 1.6rem;
+  }
+}
