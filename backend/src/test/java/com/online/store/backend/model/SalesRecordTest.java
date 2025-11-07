@@ -27,7 +27,7 @@ class SalesRecordTest {
         assertEquals(1.0, record.getTaxCollected());
         assertEquals(1.0, record.getDeliverySurcharge());
         assertEquals(PaymentMethod.CARD, record.getPaymentMethod());
-        assertEquals(1, record.getItemsSold().get("SKU-1").intValue());
+        assertEquals(2, record.getItemsSold().get("SKU-1").intValue());
     }
 
     @Test

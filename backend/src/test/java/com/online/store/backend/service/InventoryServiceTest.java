@@ -41,7 +41,6 @@ class InventoryServiceTest {
     void setUp() throws Exception {
         resetInventorySingleton();
         inventoryService = new InventoryService(productRepository);
-        when(productRepository.save(any(Product.class))).thenAnswer(invocation -> invocation.getArgument(0));
     }
 
     @Test

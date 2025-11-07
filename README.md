@@ -38,8 +38,6 @@ Same command, but must run from either Git Bash or WSL.
     >./start-dev.sh
 
 
-# MongoDB info
-
 ## Product info
 Products populate the MongoDB instance via the following format:
 *---------*
@@ -51,7 +49,3 @@ stock: Int
 *---------*
 The following product categories populate the DB:
 Groceries, Candy, Snacks, Drinks, Personal Care, Alchohol, Frozen food, Desserts, Deli, Condiments & Spices, Household & Cleaning, Pet Care.
-
-## Cart info
-
-## Account info

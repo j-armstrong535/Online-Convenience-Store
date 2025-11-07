@@ -177,7 +177,6 @@ class CartServiceTest {
     void getCart_defaultsToGuestWhenUserIdMissing() {
         Cart cart = new Cart("guest");
         when(cartRepository.findByUserId("guest")).thenReturn(Optional.of(cart));
-        when(cartRepository.save(any(Cart.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Cart result = cartService.getCartForUser("");
 
