@@ -11,3 +11,5 @@ What assumptions did you make?
 2. renamed ShoppingCart to Cart for readability, as the word 'Shopping' doesn't add anything to the meaning of the name; a Cart still means for shopping
 
 3. Added a small enum class FulfilmentMethod to denote the state of the checkout order
+
+The rest of the Design Alterations can be seen in the Design Implementation and Reflection document.
